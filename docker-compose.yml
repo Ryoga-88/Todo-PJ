@@ -1,0 +1,26 @@
+services:
+  backend:
+    container_name: todo-pj-backend
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./backend:/go/src/github.com/Ryoga-88/Todo-PJ/backend
+    restart: always
+    env_file:
+      - ./.env.local
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: todo-pj-postgres
+    image: postgres:15.1-alpine
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_USER: ryoga
+      POSTGRES_PASSWORD: ryoga
+      POSTGRES_DB: todo_pj
+    restart: always
